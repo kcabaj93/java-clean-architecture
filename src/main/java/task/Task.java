@@ -1,5 +1,6 @@
-package io.github.mat3e.entity;
+package task;
 
+import io.github.mat3e.entity.Project;
 import org.springframework.data.annotation.PersistenceConstructor;
 
 import javax.persistence.*;

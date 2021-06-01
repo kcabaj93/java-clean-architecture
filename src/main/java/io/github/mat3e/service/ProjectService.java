@@ -1,12 +1,12 @@
 package io.github.mat3e.service;
 
-import io.github.mat3e.dto.TaskDto;
+import task.TaskDto;
 import io.github.mat3e.entity.Project;
 import io.github.mat3e.entity.ProjectStep;
-import io.github.mat3e.entity.Task;
+import task.Task;
 import io.github.mat3e.repository.ProjectRepository;
 import io.github.mat3e.repository.ProjectStepRepository;
-import io.github.mat3e.repository.TaskRepository;
+import task.TaskRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;
