@@ -1,4 +1,4 @@
-package task;
+package io.github.mat3e.task;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

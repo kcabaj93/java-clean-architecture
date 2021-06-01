@@ -2,9 +2,9 @@ package io.github.mat3e;
 
 import io.github.mat3e.entity.Project;
 import io.github.mat3e.entity.ProjectStep;
-import task.Task;
+import io.github.mat3e.task.Task;
 import io.github.mat3e.repository.ProjectRepository;
-import task.TaskRepository;
+import io.github.mat3e.task.TaskRepository;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationListener;
@@ -37,7 +37,7 @@ public class JavaCleanArchitectureApplication implements ApplicationListener<Con
             projectRepository.save(project);
         }
         if (taskRepository.count() == 0) {
-            var task = new Task("Example task", ZonedDateTime.now(), null);
+            var task = new Task("Example io.github.mat3e.task", ZonedDateTime.now(), null);
             taskRepository.save(task);
         }
     }

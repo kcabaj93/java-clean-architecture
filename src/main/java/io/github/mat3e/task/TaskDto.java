@@ -1,31 +1,32 @@
-package task;
-
-import task.Task;
+package io.github.mat3e.task;
 
 import javax.validation.constraints.NotNull;
 import java.time.ZonedDateTime;
 
-public class TaskWithChangesDto {
+public class TaskDto {
     private int id;
     @NotNull
     private String description;
     private boolean done;
     private ZonedDateTime deadline;
-    private int changesCount;
+    private String additionalComment;
 
-    TaskWithChangesDto(Task source) {
+    public TaskDto() {
+    }
+
+    public TaskDto(Task source) {
         id = source.getId();
         description = source.getDescription();
         done = source.isDone();
         deadline = source.getDeadline();
-        changesCount = source.getChangesCount();
+        additionalComment = source.getAdditionalComment();
     }
 
     public int getId() {
         return id;
     }
 
-    void setId(int id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -53,11 +54,11 @@ public class TaskWithChangesDto {
         this.deadline = deadline;
     }
 
-    public int getChangesCount() {
-        return changesCount;
+    public String getAdditionalComment() {
+        return additionalComment;
     }
 
-    void setChangesCount(int changesCount) {
-        this.changesCount = changesCount;
+    void setAdditionalComment(String additionalComment) {
+        this.additionalComment = additionalComment;
     }
 }
