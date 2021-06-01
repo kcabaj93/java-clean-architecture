@@ -1,6 +1,6 @@
-package io.github.mat3e.dto;
+package io.github.mat3e.auth;
 
-public class AuthenticationResponseDto {
+class AuthenticationResponseDto {
     private final String token;
 
     public AuthenticationResponseDto(String token) {
