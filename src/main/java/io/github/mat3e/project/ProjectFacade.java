@@ -2,6 +2,7 @@ package io.github.mat3e.project;
 
 import io.github.mat3e.task.TaskDto;
 import io.github.mat3e.task.Task;
+import io.github.mat3e.task.TaskFacade;
 import io.github.mat3e.task.TaskRepository;
 import org.springframework.stereotype.Service;
 
@@ -15,12 +16,12 @@ import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 
 @Service
-class ProjectService {
+public class ProjectFacade {
     private final ProjectRepository projectRepository;
     private final ProjectStepRepository projectStepRepository;
     private final TaskRepository taskRepository;
 
-    ProjectService(ProjectRepository projectRepository, ProjectStepRepository projectStepRepository, TaskRepository taskRepository) {
+    ProjectFacade(ProjectRepository projectRepository, ProjectStepRepository projectStepRepository, TaskRepository taskRepository, final TaskFacade taskFacade) {
         this.projectRepository = projectRepository;
         this.projectStepRepository = projectStepRepository;
         this.taskRepository = taskRepository;
