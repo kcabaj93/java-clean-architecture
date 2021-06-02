@@ -20,11 +20,13 @@ public class ProjectFacade {
     private final ProjectRepository projectRepository;
     private final ProjectStepRepository projectStepRepository;
     private final TaskRepository taskRepository;
+    public  final TaskFacade taskFacade;
 
     ProjectFacade(ProjectRepository projectRepository, ProjectStepRepository projectStepRepository, TaskRepository taskRepository, final TaskFacade taskFacade) {
         this.projectRepository = projectRepository;
         this.projectStepRepository = projectStepRepository;
         this.taskRepository = taskRepository;
+        this.taskFacade = taskFacade;
     }
 
     Project save(Project toSave) {
@@ -90,7 +92,7 @@ public class ProjectFacade {
     }
 
     List<TaskDto> createTasks(int projectId, ZonedDateTime projectDeadline) {
-        if (taskRepository.findAllByProject_Id(projectId).stream().anyMatch(task -> !task.isDone())) {
+        if (taskFacade.areUndoneTasksWithProjectId(projectId)) {
             throw new IllegalStateException("There are still some undone tasks from a previous project instance!");
         }
         return taskRepository.saveAll(projectRepository.findById(projectId).stream()
