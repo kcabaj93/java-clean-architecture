@@ -35,7 +35,7 @@ public class Task {
         this.project = project;
     }
 
-    public int getId() {
+    int getId() {
         return id;
     }
 
@@ -43,7 +43,7 @@ public class Task {
         this.id = id;
     }
 
-    public String getDescription() {
+    String getDescription() {
         return description;
     }
 
@@ -59,7 +59,7 @@ public class Task {
         this.done = done;
     }
 
-    public ZonedDateTime getDeadline() {
+    ZonedDateTime getDeadline() {
         return deadline;
     }
 
@@ -67,23 +67,23 @@ public class Task {
         this.deadline = deadline;
     }
 
-    public int getChangesCount() {
+    int getChangesCount() {
         return changesCount;
     }
 
-    public void setChangesCount(int changesCount) {
+    void setChangesCount(int changesCount) {
         this.changesCount = changesCount;
     }
 
-    public String getAdditionalComment() {
+    String getAdditionalComment() {
         return additionalComment;
     }
 
-    public void setAdditionalComment(String additionalComment) {
+    void setAdditionalComment(String additionalComment) {
         this.additionalComment = additionalComment;
     }
 
-    public Project getProject() {
+    Project getProject() {
         return project;
     }
 
