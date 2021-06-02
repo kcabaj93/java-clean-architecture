@@ -3,7 +3,6 @@ package io.github.mat3e.project;
 import io.github.mat3e.task.TaskDto;
 import io.github.mat3e.task.Task;
 import io.github.mat3e.task.TaskFacade;
-import io.github.mat3e.task.TaskRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;
@@ -19,13 +18,11 @@ import static java.util.stream.Collectors.toSet;
 public class ProjectFacade {
     private final ProjectRepository projectRepository;
     private final ProjectStepRepository projectStepRepository;
-    private final TaskRepository taskRepository;
     public  final TaskFacade taskFacade;
 
-    ProjectFacade(ProjectRepository projectRepository, ProjectStepRepository projectStepRepository, TaskRepository taskRepository, final TaskFacade taskFacade) {
+    ProjectFacade(final ProjectRepository projectRepository, final ProjectStepRepository projectStepRepository, final TaskFacade taskFacade) {
         this.projectRepository = projectRepository;
         this.projectStepRepository = projectStepRepository;
-        this.taskRepository = taskRepository;
         this.taskFacade = taskFacade;
     }
 
@@ -95,7 +92,7 @@ public class ProjectFacade {
         if (taskFacade.areUndoneTasksWithProjectId(projectId)) {
             throw new IllegalStateException("There are still some undone tasks from a previous project instance!");
         }
-        return taskRepository.saveAll(projectRepository.findById(projectId).stream()
+        return taskFacade.saveAll(projectRepository.findById(projectId).stream()
                 .flatMap(project -> project.getSteps().stream()
                         .map(step -> new Task(
                                         step.getDescription(),
@@ -103,8 +100,6 @@ public class ProjectFacade {
                                         project
                                 )
                         )
-                ).collect(toList())).stream()
-                .map(TaskDto::new)
-                .collect(toList());
+                ).collect(toList()));
     }
 }

@@ -16,7 +16,14 @@ public class TaskFacade {
     }
 
     public boolean areUndoneTasksWithProjectId(int projectId) {
-        return taskRepository.existsByAllByDoneIsFalseProjectId(projectId);
+        return taskRepository.existsByDoneIsFalseAndProjectId(projectId);
+    }
+
+    public List<TaskDto> saveAll(final List<Task> tasks) {
+        return taskRepository.saveAll(tasks)
+                .stream()
+                .map(TaskDto::new)
+                .collect(toList());
     }
 
     TaskDto save(TaskDto toSave) {
