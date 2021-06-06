@@ -17,7 +17,7 @@ import static java.util.stream.Collectors.toSet;
 public class ProjectFacade {
     private final ProjectRepository projectRepository;
     private final ProjectStepRepository projectStepRepository;
-    public  final TaskFacade taskFacade;
+    private final TaskFacade taskFacade;
 
     ProjectFacade(final ProjectRepository projectRepository, final ProjectStepRepository projectStepRepository, final TaskFacade taskFacade) {
         this.projectRepository = projectRepository;
@@ -91,14 +91,15 @@ public class ProjectFacade {
         if (taskFacade.areUndoneTasksWithProjectId(projectId)) {
             throw new IllegalStateException("There are still some undone tasks from a previous project instance!");
         }
-        return taskFacade.saveAll(projectRepository.findById(projectId).stream()
-                .flatMap(project -> project.getSteps().stream()
-                        .map(step -> new Task(
-                                        step.getDescription(),
-                                        projectDeadline.plusDays(step.getDaysToProjectDeadline()),
-                                        project
-                                )
-                        )
-                ).collect(toList()));
+        return projectRepository.findById(projectId).map(project -> {
+                    List<TaskDto> tasks = project.getSteps().stream()
+                            .map(step -> TaskDto.builder()
+                                    .withDescription(step.getDescription())
+                                    .withDeadline(projectDeadline.plusDays(step.getDaysToProjectDeadline()))
+                                    .build())
+                            .collect(toList());
+                    return taskFacade.saveAll(tasks, project);
+                }
+        ).orElseThrow(() -> new IllegalArgumentException("No project found with id: " + projectId));
     }
 }

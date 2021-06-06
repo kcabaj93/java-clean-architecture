@@ -1,5 +1,6 @@
 package io.github.mat3e.task;
 
+import io.github.mat3e.project.Project;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,9 +10,11 @@ import static java.util.stream.Collectors.toList;
 
 @Service
 public class TaskFacade {
+    private final TaskFactory taskFactory;
     private final TaskRepository taskRepository;
 
-    TaskFacade(TaskRepository taskRepository) {
+    TaskFacade(final TaskFactory taskFactory, final TaskRepository taskRepository) {
+        this.taskFactory = taskFactory;
         this.taskRepository = taskRepository;
     }
 
@@ -19,38 +22,40 @@ public class TaskFacade {
         return taskRepository.existsByDoneIsFalseAndProjectId(projectId);
     }
 
-    public List<TaskDto> saveAll(final List<Task> tasks) {
-        return taskRepository.saveAll(tasks)
+    public List<TaskDto> saveAll(final List<TaskDto> tasks, final Project project) {
+        return taskRepository.saveAll(
+                tasks.stream()
+                .map(dto -> taskFactory.from(dto,project))
+                .collect(toList())
+        )
                 .stream()
-                .map(TaskDto::new)
+                .map(Task::toDto)
                 .collect(toList());
     }
 
     TaskDto save(TaskDto toSave) {
-        return new TaskDto(
-                taskRepository.save(
-                        taskRepository.findById(toSave.getId())
-                                .map(existingTask -> {
-                                    if (existingTask.isDone() != toSave.isDone()) {
-                                        existingTask.setChangesCount(existingTask.getChangesCount() + 1);
-                                        existingTask.setDone(toSave.isDone());
-                                    }
-                                    existingTask.setAdditionalComment(toSave.getAdditionalComment());
-                                    existingTask.setDeadline(toSave.getDeadline());
-                                    existingTask.setDescription(toSave.getDescription());
-                                    return existingTask;
-                                }).orElseGet(() -> {
-                            var result = new Task(toSave.getDescription(), toSave.getDeadline(), null);
-                            result.setAdditionalComment(toSave.getAdditionalComment());
-                            return result;
-                        })
-                )
-        );
+        return taskRepository.save(
+                taskRepository.findById(toSave.getId())
+                        .map(existingTask -> {
+                            if (existingTask.isDone() != toSave.isDone()) {
+                                existingTask.setChangesCount(existingTask.getChangesCount() + 1);
+                                existingTask.setDone(toSave.isDone());
+                            }
+                            existingTask.setAdditionalComment(toSave.getAdditionalComment());
+                            existingTask.setDeadline(toSave.getDeadline());
+                            existingTask.setDescription(toSave.getDescription());
+                            return existingTask;
+                        }).orElseGet(() -> {
+                    var result = new Task(toSave.getDescription(), toSave.getDeadline(), null);
+                    result.setAdditionalComment(toSave.getAdditionalComment());
+                    return result;
+                })
+        ).toDto();
     }
 
     List<TaskDto> list() {
         return taskRepository.findAll().stream()
-                .map(TaskDto::new)
+                .map(Task::toDto)
                 .collect(toList());
     }
 
@@ -61,7 +66,7 @@ public class TaskFacade {
     }
 
     Optional<TaskDto> get(int id) {
-        return taskRepository.findById(id).map(TaskDto::new);
+        return taskRepository.findById(id).map(Task::toDto);
     }
 
     void delete(int id) {
