@@ -11,7 +11,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
 @Table(name = "tasks")
-public class Task {
+class Task {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private int id;
@@ -29,10 +29,20 @@ public class Task {
     public Task() {
     }
 
-    public Task(@NotNull String description, ZonedDateTime deadline, Project project) {
+    Task(@NotNull String description, ZonedDateTime deadline, Project project) {
         this.description = description;
         this.deadline = deadline;
         this.project = project;
+    }
+
+    TaskDto toDto() {
+        return TaskDto.builder()
+                .withId(id)
+                .withDescription(description)
+                .withDone(done)
+                .withDeadline(deadline)
+                .withAdditionalComment(additionalComment)
+                .build();
     }
 
     int getId() {
@@ -51,11 +61,11 @@ public class Task {
         this.description = description;
     }
 
-    public boolean isDone() {
+    boolean isDone() {
         return done;
     }
 
-    public void setDone(boolean done) {
+    void setDone(boolean done) {
         this.done = done;
     }
 
@@ -63,7 +73,7 @@ public class Task {
         return deadline;
     }
 
-    public void setDeadline(ZonedDateTime deadline) {
+    void setDeadline(ZonedDateTime deadline) {
         this.deadline = deadline;
     }
 

@@ -1,7 +1,6 @@
 package io.github.mat3e.project;
 
 import io.github.mat3e.task.TaskDto;
-import io.github.mat3e.task.Task;
 import io.github.mat3e.task.TaskFacade;
 import org.springframework.stereotype.Service;
 
