@@ -1,6 +1,7 @@
 package io.github.mat3e.task;
 
 import io.github.mat3e.project.query.SimpleProjectQueryDto;
+import io.github.mat3e.task.dto.TaskDto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,10 +19,6 @@ public class TaskFacade {
         this.taskFactory = taskFactory;
         this.taskRepository = taskRepository;
         this.taskQueryRepository = taskQueryRepository;
-    }
-
-    public boolean areUndoneTasksWithProjectId(int projectId) {
-        return taskQueryRepository.existsByDoneIsFalseAndProjectId(projectId);
     }
 
     public List<TaskDto> saveAll(final List<TaskDto> tasks, final SimpleProjectQueryDto project) {

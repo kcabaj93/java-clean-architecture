@@ -6,7 +6,7 @@ import org.springframework.data.repository.Repository;
 import java.util.List;
 import java.util.Set;
 
-interface TaskQueryRepository extends Repository<Task, Integer> {
+public interface TaskQueryRepository extends Repository<Task, Integer> {
     int count();
 
     boolean existsByDoneIsFalseAndProjectId(int id);

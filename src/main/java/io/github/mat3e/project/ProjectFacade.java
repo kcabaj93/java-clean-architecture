@@ -1,7 +1,8 @@
 package io.github.mat3e.project;
 
 import io.github.mat3e.project.query.SimpleProjectQueryDto;
-import io.github.mat3e.task.TaskDto;
+import io.github.mat3e.task.TaskQueryRepository;
+import io.github.mat3e.task.dto.TaskDto;
 import io.github.mat3e.task.TaskFacade;
 import org.springframework.stereotype.Service;
 
@@ -19,11 +20,18 @@ public class ProjectFacade {
     private final ProjectRepository projectRepository;
     private final ProjectStepRepository projectStepRepository;
     private final TaskFacade taskFacade;
+    private final TaskQueryRepository taskQueryRepository;
 
-    ProjectFacade(final ProjectRepository projectRepository, final ProjectStepRepository projectStepRepository, final TaskFacade taskFacade) {
+    ProjectFacade(
+            final ProjectRepository projectRepository,
+            final ProjectStepRepository projectStepRepository,
+            final TaskFacade taskFacade,
+            final TaskQueryRepository taskQueryRepository
+    ) {
         this.projectRepository = projectRepository;
         this.projectStepRepository = projectStepRepository;
         this.taskFacade = taskFacade;
+        this.taskQueryRepository = taskQueryRepository;
     }
 
     Project save(Project toSave) {
@@ -89,7 +97,7 @@ public class ProjectFacade {
     }
 
     List<TaskDto> createTasks(int projectId, ZonedDateTime projectDeadline) {
-        if (taskFacade.areUndoneTasksWithProjectId(projectId)) {
+        if (taskQueryRepository.existsByDoneIsFalseAndProjectId(projectId)) {
             throw new IllegalStateException("There are still some undone tasks from a previous project instance!");
         }
         return projectRepository.findById(projectId).map(project -> {

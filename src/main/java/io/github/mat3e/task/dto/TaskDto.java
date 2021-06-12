@@ -1,12 +1,8 @@
-package io.github.mat3e.task;
-
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+package io.github.mat3e.task.dto;
 
 import javax.validation.constraints.NotNull;
 import java.time.ZonedDateTime;
 
-@JsonDeserialize(builder = TaskDto.Builder.class)
 public class TaskDto {
     public static Builder builder() {
         return new Builder();
@@ -19,12 +15,12 @@ public class TaskDto {
     private final ZonedDateTime deadline;
     private final String additionalComment;
 
-    private TaskDto(final Builder builder) {
-        id = builder.id;
-        description = builder.description;
-        done = builder.done;
-        deadline = builder.deadline;
-        additionalComment = builder.additionalComment;
+    public TaskDto(final int id, final String description, final boolean done, final ZonedDateTime deadline, final String additionalComment) {
+        this.id = id;
+        this.description = description;
+        this.done = done;
+        this.deadline = deadline;
+        this.additionalComment = additionalComment;
     }
 
     public int getId() {
@@ -56,7 +52,6 @@ public class TaskDto {
         return additionalComment;
     }
 
-    @JsonPOJOBuilder
     public static class Builder {
         private int id;
         @NotNull
@@ -70,7 +65,7 @@ public class TaskDto {
         }
 
         public TaskDto build() {
-            return new TaskDto(this);
+            return new TaskDto(id, description, done, deadline, additionalComment);
         }
 
         public Builder withId(final int id) {
