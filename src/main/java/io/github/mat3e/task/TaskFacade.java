@@ -12,14 +12,16 @@ import static java.util.stream.Collectors.toList;
 public class TaskFacade {
     private final TaskFactory taskFactory;
     private final TaskRepository taskRepository;
+    private final TaskQueryRepository taskQueryRepository;
 
-    TaskFacade(final TaskFactory taskFactory, final TaskRepository taskRepository) {
+    TaskFacade(final TaskFactory taskFactory, final TaskRepository taskRepository, final TaskQueryRepository taskQueryRepository) {
         this.taskFactory = taskFactory;
         this.taskRepository = taskRepository;
+        this.taskQueryRepository = taskQueryRepository;
     }
 
     public boolean areUndoneTasksWithProjectId(int projectId) {
-        return taskRepository.existsByDoneIsFalseAndProjectId(projectId);
+        return taskQueryRepository.existsByDoneIsFalseAndProjectId(projectId);
     }
 
     public List<TaskDto> saveAll(final List<TaskDto> tasks, final SimpleProjectQueryDto project) {
@@ -54,13 +56,13 @@ public class TaskFacade {
     }
 
     List<TaskDto> list() {
-        return taskRepository.findAll().stream()
+        return taskQueryRepository.findAll().stream()
                 .map(Task::toDto)
                 .collect(toList());
     }
 
     List<TaskWithChangesDto> listWithChanges() {
-        return taskRepository.findAll().stream()
+        return taskQueryRepository.findAll().stream()
                 .map(TaskWithChangesDto::new)
                 .collect(toList());
     }
