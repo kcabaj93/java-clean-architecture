@@ -11,19 +11,21 @@ import java.util.List;
 @RequestMapping("/projects")
 class ProjectController {
     private final ProjectFacade projectFacade;
+    private final ProjectQueryRepository projectQueryRepository;
 
-    ProjectController(ProjectFacade projectFacade) {
+    ProjectController(final ProjectFacade projectFacade, final ProjectQueryRepository projectQueryRepository) {
         this.projectFacade = projectFacade;
+        this.projectQueryRepository = projectQueryRepository;
     }
 
     @GetMapping
     List<Project> list() {
-        return projectFacade.list();
+        return projectQueryRepository.findAll();
     }
 
     @GetMapping("/{id}")
     ResponseEntity<Project> get(@PathVariable int id) {
-        return projectFacade.get(id)
+        return projectQueryRepository.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }

@@ -88,14 +88,6 @@ public class ProjectFacade {
                 });
     }
 
-    List<Project> list() {
-        return projectRepository.findAll();
-    }
-
-    Optional<Project> get(int id) {
-        return projectRepository.findById(id);
-    }
-
     List<TaskDto> createTasks(int projectId, ZonedDateTime projectDeadline) {
         if (taskQueryRepository.existsByDoneIsFalseAndProjectId(projectId)) {
             throw new IllegalStateException("There are still some undone tasks from a previous project instance!");
