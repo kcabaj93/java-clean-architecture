@@ -22,7 +22,7 @@ class TaskController {
 
     @GetMapping
     List<TaskDto> list() {
-        return taskFacade.list();
+        return taskQueryRepository.findAllBy();
     }
 
     @GetMapping(params = "changes")
@@ -32,7 +32,7 @@ class TaskController {
 
     @GetMapping("/{id}")
     ResponseEntity<TaskDto> get(@PathVariable int id) {
-        return taskFacade.get(id)
+        return taskQueryRepository.findDtoById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }

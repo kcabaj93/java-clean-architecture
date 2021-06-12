@@ -13,12 +13,10 @@ import static java.util.stream.Collectors.toList;
 public class TaskFacade {
     private final TaskFactory taskFactory;
     private final TaskRepository taskRepository;
-    private final TaskQueryRepository taskQueryRepository;
 
-    TaskFacade(final TaskFactory taskFactory, final TaskRepository taskRepository, final TaskQueryRepository taskQueryRepository) {
+    TaskFacade(final TaskFactory taskFactory, final TaskRepository taskRepository) {
         this.taskFactory = taskFactory;
         this.taskRepository = taskRepository;
-        this.taskQueryRepository = taskQueryRepository;
     }
 
     public List<TaskDto> saveAll(final List<TaskDto> tasks, final SimpleProjectQueryDto project) {
@@ -50,16 +48,6 @@ public class TaskFacade {
                     return result;
                 })
         ).toDto();
-    }
-
-    List<TaskDto> list() {
-        return taskQueryRepository.findAll().stream()
-                .map(Task::toDto)
-                .collect(toList());
-    }
-
-    Optional<TaskDto> get(int id) {
-        return taskRepository.findById(id).map(Task::toDto);
     }
 
     void delete(int id) {
