@@ -1,5 +1,6 @@
 package io.github.mat3e.project;
 
+import io.github.mat3e.project.dto.ProjectDto;
 import io.github.mat3e.project.query.SimpleProjectQueryDto;
 import io.github.mat3e.task.TaskQueryRepository;
 import io.github.mat3e.task.dto.TaskDto;
@@ -9,7 +10,6 @@ import org.springframework.stereotype.Service;
 import java.time.ZonedDateTime;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 import static java.util.stream.Collectors.toList;
@@ -21,20 +21,23 @@ public class ProjectFacade {
     private final ProjectStepRepository projectStepRepository;
     private final TaskFacade taskFacade;
     private final TaskQueryRepository taskQueryRepository;
+    private final ProjectFactory projectFactory;
 
     ProjectFacade(
             final ProjectRepository projectRepository,
             final ProjectStepRepository projectStepRepository,
             final TaskFacade taskFacade,
-            final TaskQueryRepository taskQueryRepository
-    ) {
+            final TaskQueryRepository taskQueryRepository,
+            final ProjectFactory projectFactory) {
         this.projectRepository = projectRepository;
         this.projectStepRepository = projectStepRepository;
         this.taskFacade = taskFacade;
         this.taskQueryRepository = taskQueryRepository;
+        this.projectFactory = projectFactory;
     }
 
-    Project save(Project toSave) {
+    Project save(ProjectDto dtoToSave) {
+        var toSave = projectFactory.from(dtoToSave);
         if (toSave.getId() != 0) {
             return saveWithId(toSave);
         }
