@@ -14,8 +14,11 @@
     <name>java-clean-architecture</name>
     <description>Parent of Clean Architecture example app.</description>
 
+    <packaging>pom</packaging>
+
     <modules>
         <module>monolith</module>
+        <module>adapters</module>
     </modules>
 
 </project>
