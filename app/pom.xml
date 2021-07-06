@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>engineering.full-stack</groupId>
-    <artifactId>adapters</artifactId>
+    <artifactId>app</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>adapters</name>
-    <description>Example project for a Clean Architecture course - adapters.</description>
+    <name>app</name>
+    <description>Example project for a Clean Architecture course - application.</description>
 
     <properties>
         <java.version>11</java.version>
@@ -24,12 +24,6 @@
             <artifactId>domain</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <dependency>
-            <groupId>engineering.full-stack</groupId>
-            <artifactId>app</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
 
         <dependency>
             <groupId>org.springframework.boot</groupId>

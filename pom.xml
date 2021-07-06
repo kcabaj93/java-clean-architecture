@@ -19,6 +19,8 @@
     <modules>
         <module>monolith</module>
         <module>adapters</module>
+        <module>app</module>
+        <module>domain</module>
     </modules>
 
 </project>
