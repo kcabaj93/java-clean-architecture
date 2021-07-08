@@ -1,6 +1,7 @@
 package io.github.mat3e.project;
 
 import io.github.mat3e.project.dto.ProjectDto;
+import io.github.mat3e.project.dto.ProjectStepDto;
 import io.github.mat3e.project.query.SimpleProjectQueryDto;
 import io.github.mat3e.task.TaskQueryRepository;
 import io.github.mat3e.task.dto.TaskDto;
@@ -36,10 +37,10 @@ public class ProjectFacade {
         this.projectFactory = projectFactory;
     }
 
-    Project save(ProjectDto dtoToSave) {
+    ProjectDto save(ProjectDto dtoToSave) {
         var toSave = projectFactory.from(dtoToSave);
         if (toSave.getId() != 0) {
-            return saveWithId(toSave);
+            return toDto(saveWithId(toSave));
         }
         if (toSave.getSteps().stream().anyMatch(step -> step.getId() != 0)) {
             throw new IllegalStateException("Cannot add project with existing steps");
@@ -49,7 +50,7 @@ public class ProjectFacade {
                 step.setProject(toSave);
             }
         });
-        return projectRepository.save(toSave);
+        return toDto(projectRepository.save(toSave));
     }
 
     private Project saveWithId(Project toSave) {
@@ -105,5 +106,13 @@ public class ProjectFacade {
                     return taskFacade.saveAll(tasks, new SimpleProjectQueryDto(projectId, project.getName()));
                 }
         ).orElseThrow(() -> new IllegalArgumentException("No project found with id: " + projectId));
+    }
+
+    private ProjectDto toDto(Project project) {
+        return ProjectDto.create(project.getId(),project.getName(),project.getSteps().stream().map(this::toDto).collect(toSet()));
+    }
+
+    private ProjectStepDto toDto(ProjectStep projectStep) {
+        return  ProjectStepDto.create(projectStep.getId(),projectStep.getDescription(),projectStep.getDaysToProjectDeadline());
     }
 }

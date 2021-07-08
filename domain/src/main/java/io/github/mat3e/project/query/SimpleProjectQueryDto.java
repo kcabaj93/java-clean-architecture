@@ -1,4 +1,4 @@
-package io.github.mat3e.project;
+package io.github.mat3e.project.query;
 
 import org.springframework.data.annotation.PersistenceConstructor;
 

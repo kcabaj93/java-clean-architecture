@@ -1,5 +1,6 @@
 package io.github.mat3e.project;
 
+import io.github.mat3e.project.dto.ProjectDeadlineDto;
 import io.github.mat3e.project.dto.ProjectDto;
 import io.github.mat3e.task.dto.TaskDto;
 import org.springframework.http.ResponseEntity;
@@ -41,8 +42,8 @@ class ProjectController {
     }
 
     @PostMapping
-    ResponseEntity<Project> create(@RequestBody ProjectDto toCreate) {
-        Project result = projectFacade.save(toCreate);
+    ResponseEntity<ProjectDto> create(@RequestBody ProjectDto toCreate) {
+        ProjectDto result = projectFacade.save(toCreate);
         return ResponseEntity.created(URI.create("/" + result.getId())).body(result);
     }
 
