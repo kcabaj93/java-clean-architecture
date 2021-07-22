@@ -15,9 +15,5 @@ public interface TaskQueryRepository extends Repository<Task, Integer> {
 
     Optional<TaskDto> findDtoById(int id);
 
-    List<TaskDto> findAllBy();
-
-    List<TaskWithChangesDto> findAllWithChangesBy();
-
     <T> Set<T> findBy(Class<T> type);
 }

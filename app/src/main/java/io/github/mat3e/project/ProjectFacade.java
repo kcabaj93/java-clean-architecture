@@ -6,7 +6,6 @@ import io.github.mat3e.project.query.SimpleProjectQueryDto;
 import io.github.mat3e.task.TaskQueryRepository;
 import io.github.mat3e.task.dto.TaskDto;
 import io.github.mat3e.task.TaskFacade;
-import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;
 import java.util.HashSet;
@@ -16,7 +15,6 @@ import java.util.Set;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 
-@Service
 public class ProjectFacade {
     private final ProjectRepository projectRepository;
     private final ProjectStepRepository projectStepRepository;
