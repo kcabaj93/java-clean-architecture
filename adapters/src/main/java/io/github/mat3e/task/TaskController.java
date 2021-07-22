@@ -22,12 +22,12 @@ class TaskController {
 
     @GetMapping
     List<TaskDto> list() {
-        return taskQueryRepository.findAllBy();
+        return new ArrayList<>(taskQueryRepository.findBy(TaskDto.class));
     }
 
     @GetMapping(params = "changes")
     List<TaskWithChangesDto> listWithChanges() {
-        return new ArrayList<>(taskQueryRepository.findAllWithChangesBy());
+        return new ArrayList<>(taskQueryRepository.findBy(TaskWithChangesDto.class));
     }
 
     @GetMapping("/{id}")

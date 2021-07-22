@@ -2,10 +2,10 @@ package io.github.mat3e.project;
 
 import io.github.mat3e.task.TaskFacade;
 import io.github.mat3e.task.TaskQueryRepository;
-import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
-@Configurable
+@Configuration
 class ProjectConfiguration {
     @Bean
     ProjectFacade projectFacade(
