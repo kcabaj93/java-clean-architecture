@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-public interface TaskQueryRepository extends Repository<Task, Integer> {
+public interface TaskQueryRepository {
     int count();
 
     boolean existsByDoneIsFalseAndProjectId(int id);
